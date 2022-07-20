@@ -8,6 +8,7 @@
             <div class="card-body">
                 <a href="/listings/{{ listing.id }}">{{ listing }}</a>
                 <p><em>{{ listing.description }}</em></p>
+                <p>${{ listing.price }}</p>
             </div>
         </div>
     {% empty %}

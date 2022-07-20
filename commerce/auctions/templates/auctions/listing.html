@@ -1,6 +1,8 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
+    <p>Auction closes on {{ end_date }} </p>
     <h1>{{ title }}</h1>
+    <p>$ {{ price }}</p>
     <p>{{ description }}</p>
 {% endblock %}

@@ -82,7 +82,10 @@ def new_listing(request):
 def listing(request, listing_id):
     l = Listing.objects.get(id=listing_id)
     return render(request, "auctions/listing.html", {
+        "start_date": l.start_date,
+        "end_date": l.end_date,
         "title": l.title,
         "category": l.category,
+        "price": l.price,
         "description": l.description
     })

@@ -16,8 +16,9 @@ class NewListingForm(forms.ModelForm):
 
     class Meta:
         model = Listing
-        fields = ('title', 'category', 'description')
+        fields = ('title','price', 'category','end_date', 'description')
         widgets = {
             'category': forms.Select(choices=categories),
             'description': forms.Textarea,
+            'price': forms.NumberInput(attrs={'min':0}),
             }
