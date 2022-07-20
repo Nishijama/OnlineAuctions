@@ -7,8 +7,8 @@
         <div class="card" style="margin: 10px 0">
             <div class="card-body">
                 <a href="/listings/{{ listing.id }}">{{ listing }}</a>
-                <p><em>{{ listing.description }}</em></p>
-                <p>${{ listing.price }}</p>
+                <span class="badge badge-info">${{ listing.price }}</span>
+                <p>{{ listing.description }}</p>
             </div>
         </div>
     {% empty %}

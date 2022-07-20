@@ -87,5 +87,6 @@ def listing(request, listing_id):
         "title": l.title,
         "category": l.category,
         "price": l.price,
-        "description": l.description
+        "description": l.description,
+        "item_image": l.item_image,
     })
