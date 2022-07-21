@@ -5,35 +5,22 @@
 
     <div class="listings_container">
         {% for listing in listings %}
-            <!-- <div class="card" style="margin: 10px 0">
-                <div class="card-body">
-                    <div class="listings_inner_div">
-                        <div class="listings_thumbnail_div">
-                            {% if listing.item_image %}
-                            <img class="listings_thumbnail" src="{{ listing.item_image.url }}" alt="">
-                            {% endif %}
-                        </div>
-                        <div class="listings_description">
-                            <a href="/listings/{{ listing.id }}">{{ listing }}</a>
-                            <p>${{ listing.price }}</p>
-                            <p>{{ listing.description }}</p>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
-            
-            <div class="card" style="width: 800px; margin: 10px;">
-                <!-- <div class="listings_thumbnail_div"> -->
+            <div class="card" style="width: 270px; margin: 10px; padding:10px">
+                <div class="listings_thumbnail_div">
                 {% if listing.item_image %}
-                    <img class="card-img-top" src="{{ listing.item_image.url }}" alt="Card image cap">
+                    <img class="listings_thumbnail" src="{{ listing.item_image.url }}" alt="Card image cap">
+                {% else %}
+                <span class="material-symbols-outlined">
+                    photo_camera
+                    </span>
                 {% endif %}
-                <!-- </div> -->
-                <div class="card-body">
-                <a href="/listings/{{ listing.id }}" class="card-title">{{ listing }}</a>
-                <p>${{ listing.price }}</p>
-                <p class="card-text">{{ listing.description }}</p>
-                <a href="#" class="btn btn-primary">Add to wishlist</a>
                 </div>
+                <div class="card-body" style="padding: 1.25rem 0;">
+                    <a href="/listings/{{ listing.id }}" class="card-title">{{ listing }}</a>
+                    <p>${{ listing.price }}</p>
+                    <p class="card-text">{{ listing.description }}</p>
+                </div>
+                <a href="#" class="btn btn-primary" style="position:relative;bottom:0px;">Add to wishlist</a>
             </div>
         {% empty %}
             <p>No listings available</p>

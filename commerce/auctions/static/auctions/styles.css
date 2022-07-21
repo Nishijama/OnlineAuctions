@@ -10,34 +10,29 @@ li {
     padding: 20px;
 }
 
-.listings_inner_div {
-    display: flex;
-    flex-direction: row;
-}
-
-.listings_description {
-    margin:0 10px;
-    display: flex;
-    flex-direction: column;
-}
 
 .listings_thumbnail_div {
-    width: 200px;
-    height: 200px;
+    height: 270px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
     background-color: lightblue;
 }
 .listings_thumbnail {
-    width: 200px;
-    height: auto;
+    object-fit: cover;
+    width: 270px;
+    height: 270px;
 }
 
 .listings_container {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
 }
 
 .individual_listing_image {
-    max-width: 300px;
+    width: 400px;
     height:auto;
 }
 

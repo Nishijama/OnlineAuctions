@@ -1,15 +1,40 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-<h1>{{ title }}</h1>
-    {% if item_image %}
-        <img class="individual_listing_image" src="{{ item_image.url }}" alt="">
-    {% endif %}
+<div class="container">
+    <div class="row">
+      <div class="col-sm">
+        
+        {% if item_image %}
+            <img class="individual_listing_image" src="{{ item_image.url }}" alt="">
+            {% else %}
+            <span class="material-symbols-outlined">
+                photo_camera
+            </span>
+            {% endif %}
 
-    {% if end_date %}
-        <p>Auction closes on {{ end_date }} </p>
-    {% endif %}
+ 
+      </div>
+      <div class="col-sm">
+        <div class="bidding_pannel">
+            <h1>{{ title }}</h1>
+            <form class="form-inline" method="POST">
+                <div class="form-group mx-sm-3 mb-2">
+                    <label for="bid_input" class="sr-only">Password</label>
+                    <input type="text" id="bid_input" class="form-control" value="{{ price }}" placeholder="${{ price }}">
+                </div>
+                <button type="submit" class="btn btn-primary mb-2">Bid</button>
+                <span><a href="#">Read reviews</a> | <a href="#">Write a review</a></span>
+            </form>
+            <button type="submit" class="btn btn-primary mb-2">Add to wishlist</button>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+        <div class="col-sm">
+            <p>{{ description }}</p>
+        </div>
+    </div>
+  </div>
     
-    <p>$ {{ price }}</p>
-    <p>{{ description }}</p>
 {% endblock %}
