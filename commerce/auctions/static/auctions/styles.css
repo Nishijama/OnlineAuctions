@@ -9,3 +9,35 @@ li {
 .body_container {
     padding: 20px;
 }
+
+.listings_inner_div {
+    display: flex;
+    flex-direction: row;
+}
+
+.listings_description {
+    margin:0 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.listings_thumbnail_div {
+    width: 200px;
+    height: 200px;
+    background-color: lightblue;
+}
+.listings_thumbnail {
+    width: 200px;
+    height: auto;
+}
+
+.listings_container {
+    display: flex;
+    flex-direction: row;
+}
+
+.individual_listing_image {
+    max-width: 300px;
+    height:auto;
+}
+

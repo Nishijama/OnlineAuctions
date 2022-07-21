@@ -2,17 +2,42 @@
 
 {% block body %}
     <h2>Active Listings</h2>
-    
-    {% for listing in listings %}
-        <div class="card" style="margin: 10px 0">
-            <div class="card-body">
-                <a href="/listings/{{ listing.id }}">{{ listing }}</a>
-                <span class="badge badge-info">${{ listing.price }}</span>
-                <p>{{ listing.description }}</p>
+
+    <div class="listings_container">
+        {% for listing in listings %}
+            <!-- <div class="card" style="margin: 10px 0">
+                <div class="card-body">
+                    <div class="listings_inner_div">
+                        <div class="listings_thumbnail_div">
+                            {% if listing.item_image %}
+                            <img class="listings_thumbnail" src="{{ listing.item_image.url }}" alt="">
+                            {% endif %}
+                        </div>
+                        <div class="listings_description">
+                            <a href="/listings/{{ listing.id }}">{{ listing }}</a>
+                            <p>${{ listing.price }}</p>
+                            <p>{{ listing.description }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+            
+            <div class="card" style="width: 800px; margin: 10px;">
+                <!-- <div class="listings_thumbnail_div"> -->
+                {% if listing.item_image %}
+                    <img class="card-img-top" src="{{ listing.item_image.url }}" alt="Card image cap">
+                {% endif %}
+                <!-- </div> -->
+                <div class="card-body">
+                <a href="/listings/{{ listing.id }}" class="card-title">{{ listing }}</a>
+                <p>${{ listing.price }}</p>
+                <p class="card-text">{{ listing.description }}</p>
+                <a href="#" class="btn btn-primary">Add to wishlist</a>
+                </div>
             </div>
-        </div>
-    {% empty %}
-        <p>No listings available</p>
-    {% endfor %}
+        {% empty %}
+            <p>No listings available</p>
+        {% endfor %}
+    </div>
 
 {% endblock %}

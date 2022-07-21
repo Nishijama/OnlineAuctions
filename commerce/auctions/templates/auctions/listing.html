@@ -1,8 +1,15 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-    <p>Auction closes on {{ end_date }} </p>
-    <h1>{{ title }}</h1>
+<h1>{{ title }}</h1>
+    {% if item_image %}
+        <img class="individual_listing_image" src="{{ item_image.url }}" alt="">
+    {% endif %}
+
+    {% if end_date %}
+        <p>Auction closes on {{ end_date }} </p>
+    {% endif %}
+    
     <p>$ {{ price }}</p>
     <p>{{ description }}</p>
 {% endblock %}
