@@ -70,7 +70,7 @@ def register(request):
 def new_listing(request):
 
     if request.method == "POST":
-        form = NewListingForm(request.POST)
+        form = NewListingForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
         return HttpResponseRedirect(reverse("index"))
