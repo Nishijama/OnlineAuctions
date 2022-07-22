@@ -10,6 +10,7 @@ categories=[
     ('home', 'Home'),
     ('cars', 'Cars'),
     ('art', 'Art'),
+    ('other', 'Other')
 ]
 
 class NewListingForm(forms.ModelForm):

@@ -18,7 +18,9 @@ li {
     align-items: center;
     overflow: hidden;
     background-color: lightblue;
+    border-radius: 0.25rem;
 }
+
 .listings_thumbnail {
     object-fit: cover;
     width: 270px;
@@ -30,9 +32,46 @@ li {
     flex-direction: row;
     flex-wrap: wrap;
 }
+.listings_price{
+    font-size: x-large;
+}
+.listings_title {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+}
 
 .individual_listing_image {
-    width: 400px;
-    height:auto;
+    height: 100%;
+    width: 100%;
+    object-fit:cover;
+    margin:auto;
+}
+
+.categories_thumbnail_div {
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background-color: rgb(107, 215, 252);
+    border: white;
+    border-radius: 5px;
+}
+.categories_thumbnail_div p {
+    font-size: large;
+    color:rgb(255, 255, 255);
+    margin:0;
+    text-decoration: none;
+}
+.categories_thumbnail_div:hover {
+    font-weight: bold;
+    text-decoration: none;
+    background-color: rgb(80, 207, 249);
+}
+
+.bidding_pannel {
+    display: flex;
+    flex-direction: column;
 }
 

@@ -4,23 +4,28 @@
     <h2>Active Listings</h2>
 
     <div class="listings_container">
+        
         {% for listing in listings %}
             <div class="card" style="width: 270px; margin: 10px; padding:10px">
-                <div class="listings_thumbnail_div">
-                {% if listing.item_image %}
-                    <img class="listings_thumbnail" src="{{ listing.item_image.url }}" alt="Card image cap">
-                {% else %}
-                <span class="material-symbols-outlined">
-                    photo_camera
-                    </span>
-                {% endif %}
-                </div>
+                <a href="/listings/{{ listing.id }}">
+                    <div class="listings_thumbnail_div">
+                    {% if listing.item_image %}
+                        <img class="listings_thumbnail" src="{{ listing.item_image.url }}" alt="Card image cap">
+                    {% else %}
+                    <span class="material-symbols-outlined">
+                        photo_camera
+                        </span>
+                    {% endif %}
+                    </div>
+                </a>
                 <div class="card-body" style="padding: 1.25rem 0;">
-                    <a href="/listings/{{ listing.id }}" class="card-title">{{ listing }}</a>
-                    <p>${{ listing.price }}</p>
+                    <a href="/listings/{{ listing.id }}" class="card-title listings_title">{{ listing }}</a>
+                    <p class="listings_price">${{ listing.price }}</p>
                     <p class="card-text">{{ listing.description }}</p>
                 </div>
-                <a href="#" class="btn btn-primary" style="position:relative;bottom:0px;">Add to wishlist</a>
+                {% if user.is_authenticated %}
+                    <a href="#" class="btn btn-light" style="position:relative;bottom:0px;">Add to wishlist</a>
+                {% endif %}
             </div>
         {% empty %}
             <p>No listings available</p>

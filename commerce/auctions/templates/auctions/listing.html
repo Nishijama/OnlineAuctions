@@ -1,40 +1,62 @@
+
 {% extends "auctions/layout.html" %}
+{% load static %}
+{% block head %}
+{% endblock %}
 
 {% block body %}
 <div class="container">
     <div class="row">
-      <div class="col-sm">
-        
-        {% if item_image %}
-            <img class="individual_listing_image" src="{{ item_image.url }}" alt="">
-            {% else %}
-            <span class="material-symbols-outlined">
-                photo_camera
-            </span>
-            {% endif %}
+      <div class="col-lg-6">
+        <div class="card" style=" margin: 10px 0; padding:10px; height: 400px;">
+          {% if item_image %}
+              <img class="individual_listing_image" src="{{ item_image.url }}" alt="">
+              {% else %}
 
- 
+              {% endif %}
+        </div>
       </div>
-      <div class="col-sm">
-        <div class="bidding_pannel">
+      <div class="col-lg-6">
+        <div class="card" style=" margin: 10px 0; padding:10px;height: 400px;">
+          <div class="bidding_pannel">
             <h1>{{ title }}</h1>
+            <h4>Current price: ${{ price }}</h4>
+
             <form class="form-inline" method="POST">
-                <div class="form-group mx-sm-3 mb-2">
+                <div class="form-group mr-sm-3 mb-2">
                     <label for="bid_input" class="sr-only">Password</label>
                     <input type="text" id="bid_input" class="form-control" value="{{ price }}" placeholder="${{ price }}">
                 </div>
                 <button type="submit" class="btn btn-primary mb-2">Bid</button>
-                <span><a href="#">Read reviews</a> | <a href="#">Write a review</a></span>
             </form>
-            <button type="submit" class="btn btn-primary mb-2">Add to wishlist</button>
+          </div>
+          {% if user.is_authenticated %}
+          <a href="#" class="btn btn-light" style="position:relative;bottom:0px;">Add to wishlist</a>
+          {% endif %}
         </div>
       </div>
     </div>
-    <div class="row">
-        <div class="col-sm">
+    <div class="row" style="margin-top:20px;">
+        <div class="col-lg-12">
+            <h3>Description</h3>
             <p>{{ description }}</p>
         </div>
     </div>
+    <hr>
+    <div class="row">
+      <div class="col-lg-12">
+          <span style="display:flex; align-items:center;"><h3>Comments </h3>
+          {% if user.is_authenticated %}
+          <a href="#" style="margin-left:10px;">| Write a comment</a></span>
+          {% endif %}
+          </span>
+          <div class="comments_feed">
+            <div class="alert alert-secondary" role="alert">
+              This is a test comment
+            </div>
+          </div>
+      </div>
+  </div>
   </div>
     
 {% endblock %}

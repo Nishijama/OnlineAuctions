@@ -11,9 +11,16 @@ from .forms import NewListingForm
 
 
 def index(request):
-    return render(request, "auctions/index.html",{
-    "listings": Listing.objects.all()
-    })
+    if request.method == "POST":
+        keyword = request.POST["keyword"]
+        return render(request, "auctions/index.html",{
+            "listings": Listing.objects.get(title=keyword)
+        })
+    
+    else:
+        return render(request, "auctions/index.html",{
+            "listings": Listing.objects.all()
+        })
 
 
 def login_view(request):
@@ -89,4 +96,18 @@ def listing(request, listing_id):
         "price": l.price,
         "description": l.description,
         "item_image": l.item_image,
+    })
+
+def categories(request):
+    return render(request, "auctions/categories.html",{
+        "categories": [
+            "Art", 
+            "Cars",
+            "Electronics",
+            "Fashion",
+            "Home",
+            "Sport", 
+            "Toys",
+            "Other",
+            ]
     })
