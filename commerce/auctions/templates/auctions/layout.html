@@ -22,19 +22,19 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'categories' %}">Categories</a>
                 </li>
+                {% if user.is_authenticated %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'new_listing' %}">Add New Listing</a>
                 </li>
-                {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Wishlist</a>
+                        <a class="nav-link" href="{% url 'watchlist' %}">Watchlist</a>
                     </li>
                 {% endif %}
             </ul>
             <li class="nav-item dropdown">
                 <span class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     {% if user.is_authenticated %}
-                        <strong>{{ user.username }}</strong>.
+                        <strong>{{ user.username }}</strong>
                     {% else %}
                         Not signed in.
                     {% endif %}

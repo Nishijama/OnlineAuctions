@@ -4,9 +4,10 @@
 <div class="listings_container">
     {% for category in categories %}
     <div class="card" style="width: 270px; margin: 10px;border-color: white;">
-        <a class="categories_thumbnail_div" href="#" style="text-decoration: none;">
+        <button type="button" class="btn btn-light" style="height:150px;">{{category}}</button>
+        <!-- <a class="categories_thumbnail_div" href="#" style="text-decoration: none;">
                 <p>{{category}}</p>
-        </a>
+        </a> -->
     </div>
     {% endfor%}
 </div>

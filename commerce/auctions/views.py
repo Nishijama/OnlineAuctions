@@ -11,16 +11,9 @@ from .forms import NewListingForm
 
 
 def index(request):
-    if request.method == "POST":
-        keyword = request.POST["keyword"]
-        return render(request, "auctions/index.html",{
-            "listings": Listing.objects.get(title=keyword)
-        })
-    
-    else:
-        return render(request, "auctions/index.html",{
-            "listings": Listing.objects.all()
-        })
+    return render(request, "auctions/index.html",{
+        "listings": Listing.objects.all()
+    })
 
 
 def login_view(request):
@@ -110,4 +103,9 @@ def categories(request):
             "Toys",
             "Other",
             ]
+    })
+
+def watchlist(request):
+    return render(request, "auctions/watchlist.html", {
+        "watched_items": ["Watched item 1", "Watched item 2"]
     })

@@ -54,20 +54,21 @@ li {
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    background-color: rgb(107, 215, 252);
-    border: white;
+    background-color: white;
+    border: 1px solid lightblue;
     border-radius: 5px;
 }
 .categories_thumbnail_div p {
     font-size: large;
-    color:rgb(255, 255, 255);
+    color: black;
     margin:0;
     text-decoration: none;
 }
 .categories_thumbnail_div:hover {
     font-weight: bold;
     text-decoration: none;
-    background-color: rgb(80, 207, 249);
+    color: white;
+    background-color: lightgray;
 }
 
 .bidding_pannel {
