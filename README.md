@@ -27,4 +27,4 @@ Project 2 for CS50's Web Development with Python and JavaScript.
 Assignment specification: [https://cs50.harvard.edu/web/2020/projects/2/commerce/](https://cs50.harvard.edu/web/2020/projects/2/commerce/)
 
 ### Screenshot
-TODO
+![screenshot](https://github.com/Nishijama/CS50W_project_2/blob/main/commerce/media/uploads/Commerce_screenshot.png?raw=true)
