@@ -3,18 +3,23 @@ from pydoc import describe
 from urllib import request
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from .models import User, Listing, Comment
 from .forms import NewListingForm, CommentForm
 
 
-def index(request):
-    return render(request, "auctions/index.html",{
-        "listings": Listing.objects.all()
-    })
-
+def index(request, category="All"):
+    
+    if category=="All":
+        return render(request, "auctions/index.html",{
+            "listings": Listing.objects.all()
+        })
+    else:
+        return render(request, "auctions/index.html",{
+            "listings": Listing.objects.filter(category=category)
+        })
 
 def login_view(request):
     if request.method == "POST":
@@ -35,11 +40,9 @@ def login_view(request):
     else:
         return render(request, "auctions/login.html")
 
-
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse("index"))
-
 
 def register(request):
     if request.method == "POST":
@@ -103,17 +106,27 @@ def listing(request, listing_id):
     })
 
 def categories(request):
-    return render(request, "auctions/categories.html",{
-        "categories": [
-            "Art", 
-            "Cars",
-            "Electronics",
-            "Fashion",
-            "Home",
-            "Sport", 
-            "Toys",
-            "Other",
-            ]
+    if request.method == "POST":
+        category = request.POST["category"]
+        return HttpResponseRedirect(reverse("index", kwargs={'category': category}))
+
+    else:
+        return render(request, "auctions/categories.html",{
+            "categories": [
+                "Art", 
+                "Cars",
+                "Electronics",
+                "Fashion",
+                "Home",
+                "Sport", 
+                "Toys",
+                "Other",
+                ]
+        })
+
+def category(request, category):
+    return render(request, "auctions/index.html",{
+        "listings": Listing.objects.filter(category=category)
     })
 
 def watchlist(request):

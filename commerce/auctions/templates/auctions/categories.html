@@ -2,13 +2,12 @@
 
 {% block body %}
 <div class="listings_container">
-    {% for category in categories %}
-    <div class="card" style="width: 270px; margin: 10px;border-color: white;">
-        <button type="button" class="btn btn-light" style="height:150px;">{{category}}</button>
-        <!-- <a class="categories_thumbnail_div" href="#" style="text-decoration: none;">
-                <p>{{category}}</p>
-        </a> -->
-    </div>
-    {% endfor%}
+    <form method="POST">
+        {% csrf_token %}
+        {% for category in categories %}
+        <div class="card" style="width: 270px; margin: 10px ;border-color: white;">
+            <input type="submit" value="{{category}}" name="{{category}}" class="btn btn-light" style="height:150px;">
+        {% endfor%}
+    </form>
 </div>
 {% endblock %}
