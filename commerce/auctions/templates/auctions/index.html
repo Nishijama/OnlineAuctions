@@ -19,9 +19,9 @@
                     </div>
                 </a>
                 <div class="card-body" style="padding: 1.25rem 0;">
-                    <a href="/listings/{{ listing.id }}" class="card-title listings_title">{{ listing }}</a>
+                    <a href="/listings/{{ listing.id }}" class="card-title listings_title">{{ listing.snip_title }}</a>
                     <p class="listings_price">${{ listing.price }}</p>
-                    <p class="card-text">{{ listing.description }}</p>
+                    <p class="card-text">{{ listing.snip_description }}</p>
                 </div>
                 {% if user.is_authenticated %}
                     <a href="#" class="btn btn-light" style="position:relative;bottom:0px;">Add to wishlist</a>

@@ -17,12 +17,12 @@ li {
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    background-color: lightblue;
+    background-color: white;
     border-radius: 0.25rem;
 }
 
 .listings_thumbnail {
-    object-fit: cover;
+    object-fit: contain;
     width: 270px;
     height: 270px;
 }
@@ -44,8 +44,11 @@ li {
 .individual_listing_image {
     height: 100%;
     width: 100%;
-    object-fit:cover;
+    object-fit:contain;
     margin:auto;
+}
+.individual_listing_price {
+    font-size: 2rem;
 }
 
 .categories_thumbnail_div {

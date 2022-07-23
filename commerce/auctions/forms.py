@@ -1,5 +1,5 @@
 from django import forms
-from .models import Listing
+from .models import Listing, Comment
 
 categories=[
     ('', 'Choose category'),
@@ -23,3 +23,12 @@ class NewListingForm(forms.ModelForm):
             'description': forms.Textarea,
             'price': forms.NumberInput(attrs={'min':0}),
             }
+
+class CommentForm(forms.ModelForm):
+
+    class Meta:
+        model = Comment
+        fields = ('listing', 'author','body')
+        widgets = {
+            'body': forms.Textarea,
+        }

@@ -6,8 +6,8 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-from .models import User, Listing
-from .forms import NewListingForm
+from .models import User, Listing, Comment
+from .forms import NewListingForm, CommentForm
 
 
 def index(request):
@@ -81,6 +81,12 @@ def new_listing(request):
 
 def listing(request, listing_id):
     l = Listing.objects.get(id=listing_id)
+
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            form.save()
+
     return render(request, "auctions/listing.html", {
         "start_date": l.start_date,
         "end_date": l.end_date,
@@ -89,6 +95,8 @@ def listing(request, listing_id):
         "price": l.price,
         "description": l.description,
         "item_image": l.item_image,
+        "comments": Comment.objects.filter(listing=listing_id),
+        "comment_form": CommentForm()
     })
 
 def categories(request):
