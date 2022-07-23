@@ -8,18 +8,17 @@ from django.shortcuts import render
 from django.urls import reverse
 from .models import User, Listing, Comment
 from .forms import NewListingForm, CommentForm
-
+from decimal import Decimal
 
 def index(request, category="All"):
-    
-    if category=="All":
-        return render(request, "auctions/index.html",{
-            "listings": Listing.objects.all()
-        })
-    else:
-        return render(request, "auctions/index.html",{
-            "listings": Listing.objects.filter(category=category)
-        })
+    if request.method=="POST":
+        search_data = request.POST.dict()
+        search_term = search_data.get("q")
+        return HttpResponseRedirect(f"/search_results/{search_term}")
+
+    return render(request, "auctions/index.html",{
+        "listings": Listing.objects.filter(state="active")
+    })
 
 def login_view(request):
     if request.method == "POST":
@@ -95,10 +94,11 @@ def listing(request, listing_id):
 
     return render(request, "auctions/listing.html", {
         "start_date": l.start_date,
-        "end_date": l.end_date,
+        # "end_date": l.end_date,
         "title": l.title,
         "category": l.category,
         "price": l.price,
+        "min_next_price": "{:.2f}".format(l.price + Decimal(0.01)),
         "description": l.description,
         "item_image": l.item_image,
         "comments": Comment.objects.filter(listing=listing_id),
@@ -107,8 +107,9 @@ def listing(request, listing_id):
 
 def categories(request):
     if request.method == "POST":
-        category = request.POST["category"]
-        return HttpResponseRedirect(reverse("index", kwargs={'category': category}))
+        category = request.POST.dict()
+        category = category.get("category").lower()
+        return HttpResponseRedirect(f"/categories/{category}")
 
     else:
         return render(request, "auctions/categories.html",{
@@ -126,8 +127,20 @@ def categories(request):
 
 def category(request, category):
     return render(request, "auctions/index.html",{
-        "listings": Listing.objects.filter(category=category)
+        "listings": Listing.objects.filter(category=category, state="active")
     })
+
+def search_results(request, search_term):
+    matching_results = []
+    for listing in Listing.objects.filter(state="active"):
+        if search_term.lower() in listing.title.lower():
+            matching_results.append(listing)
+
+    return render(request, "auctions/index.html", {
+        # "search_term": search_term,
+        "listings": matching_results,
+    })
+
 
 def watchlist(request):
     return render(request, "auctions/watchlist.html", {

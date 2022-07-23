@@ -4,6 +4,7 @@
 {% block body %}
 <div class="container">
   <h1>{{ title }}</h1>
+  <h6><span class="badge badge-secondary">{{category}}</span></h6>
     <div class="row">
       <div class="col-lg-8">
         <div class="card" style=" margin: 10px 0; padding:10px; height: 400px;">
@@ -15,22 +16,25 @@
         </div>
       </div>
       <div class="col-lg-4">
-        <!-- <div  style=" margin: 10px 0; padding:10px;"> -->
           <div class="bidding_pannel">
-                 <p class="individual_listing_price">Current price: ${{ price }}</p>
+            <p class="individual_listing_price">Current price: ${{ price }}</p>
             <form method="POST">
                 <div class="form-group mb-2">
                     <label for="bid_input" class="sr-only">Bid amount</label>
-                    <input type="text" id="bid_input" class="form-control form-control-lg"
-                     value="{{ price }}" placeholder="${{ price }}">
+                    <input type="number" id="bid_input" class="form-control form-control-lg"
+                     value="{{ min_next_price }}" min="{{ min_next_price }}">
                 </div>
+                {% if user.is_authenticated %}
                 <button type="submit" class="btn btn-primary btn-lg btn-block mb-2">Bid</button>
+                {% else %}
+                <a type="button" href="{% url 'login' %}" class="btn btn-primary btn-lg btn-block mb-2">Bid</a>
+                {% endif %}
             </form>
-            <!-- <a href="#" class="btn btn-primary mb-2">Bid</a> -->
-          <!-- </div> -->
-          {% if user.is_authenticated %}
-          <a href="#" class="btn btn-light btn-lg btn-block mb-2">Add to watchlist ⭐ </a>
-          {% endif %}
+            {% if user.is_authenticated %}
+              <a href="#" class="btn btn-light btn-lg btn-block mb-2">Add to watchlist ⭐ </a>
+            {% else %}
+              <a href="{% url 'login' %}" class="btn btn-light btn-lg btn-block mb-2">Add to watchlist ⭐ </a>
+            {% endif %}
         </div>
       </div>
     </div>

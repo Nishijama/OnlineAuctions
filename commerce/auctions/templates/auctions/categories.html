@@ -1,13 +1,14 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-<div class="listings_container">
-    <form method="POST">
+<!-- <div class="listings_container"> -->
+    <form class="listings_container" method="POST">
         {% csrf_token %}
         {% for category in categories %}
         <div class="card" style="width: 270px; margin: 10px ;border-color: white;">
-            <input type="submit" value="{{category}}" name="{{category}}" class="btn btn-light" style="height:150px;">
+            <input type="submit" value="{{category}}" name="category" class="btn btn-light" style="height:150px;">
+        </div>
         {% endfor%}
     </form>
-</div>
+<!-- </div> -->
 {% endblock %}

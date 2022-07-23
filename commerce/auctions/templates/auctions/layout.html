@@ -12,9 +12,16 @@
     <body>
 
         <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light" style="display:flex; justify-content:space-between;">
-
             <ul class="nav">
                 <a class="navbar-brand" href="{% url 'index' %}">Auctions</a>
+                <form action="{% url 'index' %}" method="post" class="form-inline">
+                    {% csrf_token %}
+                    <!-- <input class="search" type="text" name="q" placeholder="Search..."> -->
+                    <input class="form-control mr-sm-2" type="search" name="q" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+                </form>
+
+
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'index' %}">Active listings</a>
                 </li>

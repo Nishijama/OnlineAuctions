@@ -20,6 +20,7 @@
                 </a>
                 <div class="card-body" style="padding: 1.25rem 0;">
                     <a href="/listings/{{ listing.id }}" class="card-title listings_title">{{ listing.snip_title }}</a>
+                    <h6 style="margin:0;"><span class="badge badge-secondary">{{listing.category}}</span></h6>
                     <p class="listings_price">${{ listing.price }}</p>
                     <p class="card-text">{{ listing.snip_description }}</p>
                 </div>
