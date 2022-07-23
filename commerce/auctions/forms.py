@@ -28,7 +28,7 @@ class CommentForm(forms.ModelForm):
 
     class Meta:
         model = Comment
-        fields = ('listing', 'author','body')
+        fields = ('body',)
         widgets = {
             'body': forms.Textarea,
         }

@@ -79,3 +79,6 @@ li {
     flex-direction: column;
 }
 
+#CommentForm {
+    visibility: hidden;
+}
