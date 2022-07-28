@@ -6,9 +6,9 @@ class User(AbstractUser):
     def __str__(self):
         return self.username
 class Listing(models.Model):
-    owner = models.ForeignKey(User, on_delete=CASCADE)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
-    state = models.CharField(max_length=10)
+    state = models.CharField(max_length=10, default="active")
     category = models.CharField(max_length=64, null=True, blank=True)
     description = models.CharField(max_length=1500)
     price = models.DecimalField(max_digits=8, decimal_places=2)
