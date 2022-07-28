@@ -4,7 +4,11 @@
 {% block body %}
 <div class="container">
   <h1>{{ title }}</h1>
-  <h6><span class="badge badge-secondary">{{category}}</span></h6>
+  <h6><span class="badge badge-secondary">{{category}}</span>
+  <span class="badge badge-info">{{ owner }}</span></h6>
+    {% if owner == request.user %}
+    <p style="font-size:72; color:red;">You own this listing</p>
+    {% endif %}
     <div class="row">
       <div class="col-lg-8">
         <div class="card" style=" margin: 10px 0; padding:10px; height: 400px;">
@@ -25,7 +29,11 @@
                      value="{{ min_next_price }}" min="{{ min_next_price }}">
                 </div>
                 {% if user.is_authenticated %}
-                <button type="submit" class="btn btn-primary btn-lg btn-block mb-2">Bid</button>
+                  {% if owner != request.user %}
+                    <button type="submit" class="btn btn-primary btn-lg btn-block mb-2">Bid</button>
+                  {% else %}
+                  <button type="submit" class="btn btn-warning btn-lg btn-block mb-2">Close auction</button>
+                  {% endif %}
                 {% else %}
                 <a type="button" href="{% url 'login' %}" class="btn btn-primary btn-lg btn-block mb-2">Bid</a>
                 {% endif %}
