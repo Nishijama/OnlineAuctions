@@ -74,7 +74,9 @@ def new_listing(request):
     if request.method == "POST":
         form = NewListingForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            new_listing = form.save(commit=False)
+            new_listing.owner = request.user
+            new_listing.save()
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "auctions/new_listing.html", {
