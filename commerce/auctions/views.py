@@ -101,7 +101,7 @@ def listing(request, listing_id):
         "min_next_price": "{:.2f}".format(l.price + Decimal(0.01)),
         "description": l.description,
         "item_image": l.item_image,
-        "comments": Comment.objects.filter(listing=listing_id),
+        "comments": l.comment_set.all(),
         "comment_form": CommentForm()
     })
 

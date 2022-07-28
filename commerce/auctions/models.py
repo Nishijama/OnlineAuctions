@@ -33,7 +33,7 @@ class Listing(models.Model):
 
 class Comment(models.Model):
 
-    listing = models.IntegerField()
+    listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
     author = models.CharField(max_length=200, default="Anonymous")
     body = models.CharField(max_length=500)
     date = models.DateTimeField(auto_now_add=True, editable=False)
