@@ -87,10 +87,10 @@ def listing(request, listing_id):
     if request.method == "POST":
         form = CommentForm(request.POST)
         if form.is_valid():
-            obj = form.save(commit=False)
-            obj.listing = listing_id
-            obj.author = request.user.username
-            obj.save()
+            new_commennt = form.save(commit=False)
+            new_commennt.listing = l
+            new_commennt.author = request.user.username
+            new_commennt.save()
 
     return render(request, "auctions/listing.html", {
         "start_date": l.start_date,
