@@ -1,10 +1,12 @@
+from tkinter import CASCADE
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 class User(AbstractUser):
-    pass
-
+    def __str__(self):
+        return self.username
 class Listing(models.Model):
+    owner = models.ForeignKey(User, on_delete=CASCADE)
     title = models.CharField(max_length=200)
     state = models.CharField(max_length=10)
     category = models.CharField(max_length=64, null=True, blank=True)
@@ -34,6 +36,7 @@ class Listing(models.Model):
 class Comment(models.Model):
 
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
+    owner =  models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     author = models.CharField(max_length=200, default="Anonymous")
     body = models.CharField(max_length=500)
     date = models.DateTimeField(auto_now_add=True, editable=False)
