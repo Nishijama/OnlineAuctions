@@ -45,3 +45,6 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.body[:50]
+
+class Watchlist(models.Model):
+    pass

@@ -16,15 +16,15 @@ li {
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
+    /* overflow: hidden; */
     background-color: white;
     border-radius: 0.25rem;
 }
 
 .listings_thumbnail {
     object-fit: contain;
-    width: 270px;
-    height: 270px;
+    width: 250px;
+    height: 250px;
 }
 
 .listings_container {
