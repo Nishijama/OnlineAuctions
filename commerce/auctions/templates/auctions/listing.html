@@ -24,11 +24,7 @@
             <p>Posted on {{ start_date }}</p>
             <p class="individual_listing_price">Current price: ${{ price }}</p>
             <form method="POST">
-                <!-- <div class="form-group mb-2">
-                    <label for="bid_input" class="sr-only">Bid amount</label>
-                    <input type="number" id="bid_input" class="form-control form-control-lg"
-                     value="{{ min_next_price }}" min="{{ min_next_price }}">
-                </div> -->
+              {% csrf_token %}
                 {% if user.is_authenticated %}
                   {% if owner != request.user %}
                     <div class="form-group mb-2">
@@ -36,10 +32,10 @@
                       <input type="number" id="bid_input" class="form-control form-control-lg"
                       value="{{ min_next_price }}" min="{{ min_next_price }}">
                     </div>
-                    <button type="submit" class="btn btn-primary btn-lg btn-block mb-2">Bid</button>
+                    <button type="submit" name="bid_submit" class="btn btn-primary btn-lg btn-block mb-2">Bid</button>
                     <a href="#" class="btn btn-light btn-lg btn-block mb-2">Add to watchlist ⭐ </a>
                   {% else %}
-                  <button type="submit" class="btn btn-warning btn-lg btn-block mb-2">Close auction</button>
+                  <button type="submit" name="close_submit" class="btn btn-warning btn-lg btn-block mb-2">Close auction</button>
                   {% endif %}
                 {% else %}
                 <div class="form-group mb-2">
@@ -51,11 +47,6 @@
                 <a href="{% url 'login' %}" class="btn btn-light btn-lg btn-block mb-2">Add to watchlist ⭐ </a>
                 {% endif %}
             </form>
-            <!-- {% if user.is_authenticated %}
-              <a href="#" class="btn btn-light btn-lg btn-block mb-2">Add to watchlist ⭐ </a>
-            {% else %}
-              <a href="{% url 'login' %}" class="btn btn-light btn-lg btn-block mb-2">Add to watchlist ⭐ </a>
-            {% endif %} -->
         </div>
       </div>
     </div>
@@ -78,7 +69,7 @@
                 <form method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                     {{ comment_form|crispy }}
-                    <input class="btn btn-primary mb-2" type="submit" value="Post">
+                    <input class="btn btn-primary mb-2" type="submit" name="comment_submit" value="Post">
                   </form>
               </div>
             </div>
