@@ -96,7 +96,7 @@ def listing(request, listing_id):
                 new_commennt.save()
 
         elif 'close_submit' in request.POST:
-            l.status = 'closed'
+            l.state = 'closed'
             l.save()
 
 
