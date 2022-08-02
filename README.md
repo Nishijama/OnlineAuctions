@@ -5,7 +5,7 @@
 ####  eBay-like e-commerce auction site that will allow users to post auction listings, place bids on listings, comment on those listings, and add listings to a “watchlist.”
 
 ### Screenshot
-![screenshot](https://github.com/Nishijama/CS50W_project_2/blob/main/commerce/media/uploads/Commerce_screenshot.png?raw=true)
+![screenshot](https://github.com/Nishijama/CS50W_project_2/blob/main/commerce/media/uploads/Screenshot%202022-08-02%20at%2021.42.18.png?raw=true)
 
 ### Video Demo:  TODO
 
