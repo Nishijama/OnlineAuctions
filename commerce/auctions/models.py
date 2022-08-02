@@ -35,6 +35,9 @@ class Listing(models.Model):
             snippet = f"{self.title[:80]} ..."
         return snippet    
 
+    def close_auction(self):
+        self.state = 'closed'
+
 class Comment(models.Model):
 
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE)

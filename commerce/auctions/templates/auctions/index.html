@@ -25,7 +25,11 @@
                     <p class="card-text">{{ listing.snip_description }}</p>
                 </div>
                 {% if user.is_authenticated %}
+                    {% if listing.owner != request.user %}
                     <a href="#" class="btn btn-light" style="position:relative;bottom:0px;">Add to watchlist</a>
+                    {% else %}
+                    <button type="submit" data-id="{{ listing.id }}" name="close_submit" class="btn btn-warning btn-lg btn-block mb-2">Close auction</button>
+                    {% endif %}
                 {% endif %}
             </div>
         {% empty %}

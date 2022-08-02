@@ -12,9 +12,13 @@ from decimal import Decimal
 
 def index(request, category="All"):
     if request.method=="POST":
-        search_data = request.POST.dict()
-        search_term = search_data.get("q")
-        return HttpResponseRedirect(f"/search_results/{search_term}")
+        if "search_submit" in request.POST:
+            search_data = request.POST.dict()
+            search_term = search_data.get("q")
+            return HttpResponseRedirect(f"/search_results/{search_term}")
+        elif "close_submit" in request.POST:
+            pass
+            # TODO
 
     return render(request, "auctions/index.html",{
         "listings": Listing.objects.filter(state="active")
@@ -96,8 +100,9 @@ def listing(request, listing_id):
                 new_commennt.save()
 
         elif 'close_submit' in request.POST:
-            l.state = 'closed'
+            l.close_auction()
             l.save()
+            return HttpResponseRedirect(reverse("index"))
 
 
     return render(request, "auctions/listing.html", {
