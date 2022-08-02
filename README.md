@@ -15,12 +15,18 @@
 * SQLite
 * HTML
 * CSS
+* Bootstrap
 
 ### Features
 * Register/sign up
 * List all existing listings
 * View each individual listing
-* Create new listings
+* Create and 'close' listings
+* View listing categories
+* Display listings by category
+* Search for listing by name
+* Add listings to your 'watchlist'
+* Place bids
 * ...
 
 ### Context
