@@ -5,10 +5,12 @@
     <form class="listings_container" method="POST">
         {% csrf_token %}
         {% for category in categories %}
-        <div class="card" style="width: 270px; margin: 10px ;border-color: white;">
-            <input type="submit" value="{{category}}" name="category" class="btn btn-light" style="height:150px;">
-        </div>
+        <button type="submit" value="{{category}}" name="category" class="card btn btn-light"  style=" height: 150px; width: 270px; margin: 10px ;border-color: white;">
+            <img style="height:auto; width: 80px; margin:auto;" src="/media/Icons/{{category}}.png" alt="img">
+            <p>{{category}}</p>
+        </button>
         {% endfor%}
     </form>
-<!-- </div> -->
+    <!-- </div> -->
+    <a href="https://www.flaticon.com/free-icons/art" title="art icons">Art icons created by Freepik - Flaticon</a>
 {% endblock %}
