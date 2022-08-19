@@ -1,5 +1,4 @@
-import imp
-from pydoc import describe
+
 from urllib import request
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
@@ -16,9 +15,19 @@ def index(request, category="All"):
             search_data = request.POST.dict()
             search_term = search_data.get("q")
             return HttpResponseRedirect(f"/search_results/{search_term}")
+
         elif "close_submit" in request.POST:
-            pass
+            l = Listing.objects.get(id=request.POST['close_submit'])
+            l.close_auction()
+            l.save()
+            return HttpResponseRedirect(reverse("index"))
+        elif "watch_submit" in request.POST:
+            l = Listing.objects.get(id=request.POST['watch_submit'])
+            print("Added " + l.title + " to watchlist")
             # TODO
+
+            return HttpResponseRedirect(reverse("index"))
+
 
     return render(request, "auctions/index.html",{
         "listings": Listing.objects.filter(state="active")
