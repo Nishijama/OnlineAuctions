@@ -41,6 +41,7 @@ class Listing(models.Model):
         self.state = 'closed'
 
 
+
 class Comment(models.Model):
 
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE)

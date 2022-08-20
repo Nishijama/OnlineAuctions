@@ -21,12 +21,15 @@ def index(request, category="All"):
             l.close_auction()
             l.save()
             return HttpResponseRedirect(reverse("index"))
-        elif "watch_submit" in request.POST:
-            l = Listing.objects.get(id=request.POST['watch_submit'])
-            print("Added " + l.title + " to watchlist")
-            # TODO
 
-            return HttpResponseRedirect(reverse("index"))
+        elif "watch_submit" in request.POST:
+            listing = Listing.objects.get(id=request.POST['watch_submit'])
+            user = request.user
+
+            listing.watchers.add(user)
+            print("Added " + listing.title + " to " + user.username + "'s watchlist")
+
+            # return HttpResponseRedirect(reverse("index"))
 
 
     return render(request, "auctions/index.html",{
@@ -112,18 +115,18 @@ def listing(request, listing_id):
             l.close_auction()
             l.save()
             return HttpResponseRedirect(reverse("index"))
+            
+        elif "watch_submit" in request.POST:
+            listing = Listing.objects.get(id=request.POST['watch_submit'])
+            user = request.user
+
+            listing.watchers.add(user)
+            print("Added " + listing.title + " to " + user.username + "'s watchlist")
 
 
     return render(request, "auctions/listing.html", {
-        "start_date": l.start_date,
-        # "end_date": l.end_date,
-        "owner": l.owner,
-        "title": l.title,
-        "category": l.category,
-        "price": l.price,
+        "listing": l,
         "min_next_price": "{:.2f}".format(l.price + Decimal(0.01)),
-        "description": l.description,
-        "item_image": l.item_image,
         "comments": l.comment_set.all(),
         "comment_form": CommentForm(),
         "watchers": l.watchers.all()
@@ -168,6 +171,13 @@ def search_results(request, search_term):
 
 def watchlist(request):
     user = request.user
+
+    if request.method == "POST":
+        listing = Listing.objects.get(id=request.POST["watch_remove"])
+        listing.watchers.remove(user)
+        pass
+
     return render(request, "auctions/watchlist.html", {
-        "watched_items": user.watched_items.all()
+        "watched_items": user.watched_items.all(),
+        
     })

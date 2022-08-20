@@ -5,7 +5,11 @@
 
     <h1>Items on your watchlist</h1>
     {% for item in watched_items %}
+    <form method="post">
+        {% csrf_token %}
+        <button value="{{item.id}}" name="watch_remove" class="btn btn-outline-danger" style="margin-right:10px">×</button>
         <a href='/listings/{{item.id}}'>{{ item }}</a>
+    </form>
         <hr>
     {% empty %}
     <p>no items to show.</p>

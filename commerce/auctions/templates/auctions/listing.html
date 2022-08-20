@@ -3,17 +3,17 @@
 
 {% block body %}
 <div class="container">
-  <h1>{{ title }}</h1>
-  <h6><span class="badge badge-secondary">{{category}}</span>
-  <span class="badge badge-info">{{ owner }}</span></h6>
-    {% if owner == request.user %}
+  <h1>{{ listing.title }}</h1>
+  <h6><span class="badge badge-secondary">{{listing.category}}</span>
+  <span class="badge badge-info">{{ listing.owner }}</span></h6>
+    {% if listing.owner == request.user %}
     <p style="font-size:72; color:red;">You own this listing</p>
     {% endif %}
     <div class="row">
       <div class="col-lg-8">
         <div class="card" style=" margin: 10px 0; padding:10px; height: 400px;">
-          {% if item_image %}
-              <img class="individual_listing_image" src="{{ item_image.url }}" alt="">
+          {% if listing.item_image %}
+              <img class="individual_listing_image" src="{{ listing.item_image.url }}" alt="">
               {% else %}
 
               {% endif %}
@@ -21,19 +21,19 @@
       </div>
       <div class="col-lg-4">
           <div class="bidding_pannel">
-            <p>Posted on {{ start_date }}</p>
-            <p class="individual_listing_price">Current price: ${{ price }}</p>
+            <p>Posted on {{ listing.start_date }}</p>
+            <p class="individual_listing_price">Current price: ${{ listing.price }}</p>
             <form method="POST">
               {% csrf_token %}
                 {% if user.is_authenticated %}
-                  {% if owner != request.user %}
+                  {% if listing.owner != request.user %}
                     <div class="form-group mb-2">
                       <label for="bid_input" class="sr-only">Bid amount</label>
                       <input type="number" id="bid_input" class="form-control form-control-lg"
                       value="{{ min_next_price }}" min="{{ min_next_price }}">
                     </div>
                     <button type="submit" name="bid_submit" class="btn btn-primary btn-lg btn-block mb-2">Bid</button>
-                    <a href="#" class="btn btn-light btn-lg btn-block mb-2">Add to watchlist ⭐ </a>
+                    <button type="submit" value="{{listing.id}}" name="watch_submit" class="btn btn-light btn-lg btn-block mb-2">Add to watchlist ⭐ </button>
                   {% else %}
                   <button type="submit" name="close_submit" class="btn btn-warning btn-lg btn-block mb-2">Close auction</button>
                   {% endif %}
@@ -53,7 +53,7 @@
     <div class="row" style="margin-top:20px;">
         <div class="col-lg-12">
             <h3>Description</h3>
-            <p>{{ description }}</p>
+            <p>{{ listing.description }}</p>
         </div>
     </div>
     <hr>
