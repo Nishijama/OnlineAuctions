@@ -5,7 +5,7 @@
 
     <h1>Items on your watchlist</h1>
     {% for item in watched_items %}
-        <p>{{ item }}</p>
+        <a href='/listings/{{item.id}}'>{{ item }}</a>
         <hr>
     {% empty %}
     <p>no items to show.</p>

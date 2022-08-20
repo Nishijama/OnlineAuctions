@@ -125,7 +125,8 @@ def listing(request, listing_id):
         "description": l.description,
         "item_image": l.item_image,
         "comments": l.comment_set.all(),
-        "comment_form": CommentForm()
+        "comment_form": CommentForm(),
+        "watchers": l.watchers.all()
     })
 
 def categories(request):
@@ -166,6 +167,7 @@ def search_results(request, search_term):
 
 
 def watchlist(request):
+    user = request.user
     return render(request, "auctions/watchlist.html", {
-        "watched_items": ["Watched item 1", "Watched item 2"]
+        "watched_items": user.watched_items.all()
     })
