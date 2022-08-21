@@ -28,7 +28,11 @@
                 <form method='post'>
                     {% csrf_token %}
                     {% if listing.owner != request.user %}
-                    <button type="submit" value="{{ listing.id }}" name="watch_submit" class="btn btn-light btn-lg btn-block mb-2" style="position:relative;bottom:0px;">Add to watchlist</button>
+                        {% if listing not in watched_items %}
+                        <button type="submit" value="{{ listing.id }}" name="watch_submit" class="btn btn-light btn-lg btn-block mb-2" style="position:relative;bottom:0px;">Add to watchlist</button>
+                        {% else %}
+                        <button type="submit" value="{{ listing.id }}" name="watch_remove" class="btn btn-outline-danger btn-lg btn-block mb-2" style="position:relative;bottom:0px;">Remove from watchlist</button>
+                        {% endif %}
                     {% else %}
                     <button type="submit" value="{{ listing.id }}" name="close_submit" class="btn btn-warning btn-lg btn-block mb-2" style="position:relative;bottom:0px;">Close auction</button>
                     {% endif %}

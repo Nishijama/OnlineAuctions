@@ -29,12 +29,19 @@ def index(request, category="All"):
             listing.watchers.add(user)
             print("Added " + listing.title + " to " + user.username + "'s watchlist")
 
-            # return HttpResponseRedirect(reverse("index"))
+        elif "watch_remove" in request.POST:
+            listing = Listing.objects.get(id=request.POST["watch_remove"])
+            listing.watchers.remove(request.user)
 
-
-    return render(request, "auctions/index.html",{
-        "listings": Listing.objects.filter(state="active")
-    })
+    if request.user.is_authenticated:
+        return render(request, "auctions/index.html",{
+            "listings": Listing.objects.filter(state="active"),
+            "watched_items": request.user.watched_items.all()
+        })
+    else:
+        return render(request, "auctions/index.html",{
+        "listings": Listing.objects.filter(state="active"),
+        })
 
 def login_view(request):
     if request.method == "POST":
@@ -122,6 +129,10 @@ def listing(request, listing_id):
 
             listing.watchers.add(user)
             print("Added " + listing.title + " to " + user.username + "'s watchlist")
+        
+        elif "watch_remove" in request.POST:
+            listing = Listing.objects.get(id=request.POST["watch_remove"])
+            listing.watchers.remove(request.user)
 
 
     return render(request, "auctions/listing.html", {
@@ -129,7 +140,7 @@ def listing(request, listing_id):
         "min_next_price": "{:.2f}".format(l.price + Decimal(0.01)),
         "comments": l.comment_set.all(),
         "comment_form": CommentForm(),
-        "watchers": l.watchers.all()
+        "watchers": l.watchers.all(),
     })
 
 def categories(request):
@@ -175,7 +186,6 @@ def watchlist(request):
     if request.method == "POST":
         listing = Listing.objects.get(id=request.POST["watch_remove"])
         listing.watchers.remove(user)
-        pass
 
     return render(request, "auctions/watchlist.html", {
         "watched_items": user.watched_items.all(),

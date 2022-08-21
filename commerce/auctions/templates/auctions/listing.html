@@ -33,7 +33,11 @@
                       value="{{ min_next_price }}" min="{{ min_next_price }}">
                     </div>
                     <button type="submit" name="bid_submit" class="btn btn-primary btn-lg btn-block mb-2">Bid</button>
+                    {% if request.user not in watchers %}
                     <button type="submit" value="{{listing.id}}" name="watch_submit" class="btn btn-light btn-lg btn-block mb-2">Add to watchlist ⭐ </button>
+                    {% else %}
+                    <button type="submit" value="{{ listing.id }}" name="watch_remove" class="btn btn-outline-danger btn-lg btn-block mb-2" style="position:relative;bottom:0px;">Remove from watchlist</button>
+                    {% endif %}
                   {% else %}
                   <button type="submit" name="close_submit" class="btn btn-warning btn-lg btn-block mb-2">Close auction</button>
                   {% endif %}
