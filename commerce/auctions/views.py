@@ -6,7 +6,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from .models import User, Listing, Bid
-from .forms import NewListingForm, CommentForm, BidForm
+from .forms import NewListingForm, CommentForm
 from decimal import Decimal
 
 def index(request, category="All"):
@@ -153,7 +153,6 @@ def listing(request, listing_id):
         "min_next_price": "{:.2f}".format(l.price + Decimal(0.01)),
         "comments": l.comment_set.all(),
         "comment_form": CommentForm(),
-        "bid_form": BidForm(),
         "watchers": l.watchers.all(),
     })
 

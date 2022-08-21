@@ -6,7 +6,6 @@
   <h1>{{ listing.title }}</h1>
   <h6><span class="badge badge-secondary">{{listing.category}}</span>
   <span class="badge badge-info">{{ listing.owner }}</span></h6>
-  <span class="badge badge-info">{{ listing.highest_bidder }}</span></h6>
     {% if listing.owner == request.user %}
     <p style="font-size:72; color:red;">You own this listing</p>
     {% endif %}
@@ -16,14 +15,18 @@
           {% if listing.item_image %}
               <img class="individual_listing_image" src="{{ listing.item_image.url }}" alt="">
               {% else %}
-
-              {% endif %}
+            
+            {% endif %}
         </div>
       </div>
       <div class="col-lg-4">
+        {% if listing.state == 'active' %}
           <div class="bidding_pannel">
             <p>Posted on {{ listing.start_date }}</p>
             <p class="individual_listing_price">Current price: ${{ listing.price }}</p>
+            {% if listing.highest_bidder %}
+            <p>Highest bidder: {{listing.highest_bidder}}</p>
+            {% endif %}
             <form method="POST">
               {% csrf_token %}
                 {% if user.is_authenticated %}
@@ -53,6 +56,13 @@
                 {% endif %}
             </form>
         </div>
+        {% else %}
+        <div class="bidding_pannel">
+          <p>auction closed</p>
+          <p class="individual_listing_price">Final price: ${{ listing.price }}</p>
+          <p>Highest bidder: {{listing.highest_bidder}}</p>
+        </div>
+        {% endif %}
       </div>
     </div>
     <div class="row" style="margin-top:20px;">

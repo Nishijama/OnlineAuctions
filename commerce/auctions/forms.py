@@ -47,14 +47,3 @@ class CommentForm(forms.ModelForm):
         widgets = {
             'body': forms.Textarea(attrs={'class': 'form-control new_listing_form', 'placeholder': 'Comment'}),
         }
-
-class BidForm(forms.ModelForm):
-    class Meta:
-        model = Bid
-        fields = ('value',)
-        labels = {
-            "value": "",
-        }
-        widgets = {
-            "value": forms.NumberInput(attrs={"placeholder": "Bid amount"})
-        }
