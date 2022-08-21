@@ -5,8 +5,8 @@ from django.db import IntegrityError
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-from .models import User, Listing, Comment
-from .forms import NewListingForm, CommentForm
+from .models import User, Listing, Bid
+from .forms import NewListingForm, CommentForm, BidForm
 from decimal import Decimal
 
 def index(request, category="All"):
@@ -134,12 +134,26 @@ def listing(request, listing_id):
             listing = Listing.objects.get(id=request.POST["watch_remove"])
             listing.watchers.remove(request.user)
 
+        elif "bid_submit" in request.POST:
+            new_bid = Bid()
+            new_bid.value = request.POST["bid_amount"]
+            new_bid.listing = l
+            new_bid.bidder = request.user
+            new_bid.save()
+            if Decimal(new_bid.value) > l.price:
+                l.price = Decimal(new_bid.value)
+                l.highest_bidder = request.user
+                l.save()
+
+                print("Updated price with the new bid!")
+
 
     return render(request, "auctions/listing.html", {
         "listing": l,
         "min_next_price": "{:.2f}".format(l.price + Decimal(0.01)),
         "comments": l.comment_set.all(),
         "comment_form": CommentForm(),
+        "bid_form": BidForm(),
         "watchers": l.watchers.all(),
     })
 

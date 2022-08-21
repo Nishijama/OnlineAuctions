@@ -82,3 +82,7 @@ li {
 #CommentForm {
     visibility: hidden;
 }
+
+.new_listing_form {
+    margin: 10px 0px;
+}

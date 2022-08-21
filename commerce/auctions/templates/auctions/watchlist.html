@@ -7,8 +7,11 @@
     {% for item in watched_items %}
     <form method="post">
         {% csrf_token %}
+        <div  class="watchlist_grid">
         <button value="{{item.id}}" name="watch_remove" class="btn btn-outline-danger" style="margin-right:10px">×</button>
         <a href='/listings/{{item.id}}'>{{ item }}</a>
+        <span style='margin-left:150px';>${{ item.price }}</span>
+    </div>
     </form>
         <hr>
     {% empty %}
