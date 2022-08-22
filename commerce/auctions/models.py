@@ -1,3 +1,4 @@
+from termios import TIOCPKT_DOSTOP
 from tkinter import CASCADE
 from django.contrib.auth.models import AbstractUser
 from django.db import models
@@ -15,6 +16,12 @@ class Listing(models.Model):
     category = models.CharField(max_length=64, null=True, blank=True)
     description = models.CharField(max_length=1500)
     price = models.DecimalField(max_digits=8, decimal_places=2)
+
+    start_price = ""
+    current_price = "" 
+    # to connect with bids
+
+
     start_date = models.DateField(auto_now_add=True, editable=False)
     # end_date = models.DateField(null=True, blank=True)
     item_image = models.ImageField(upload_to ='uploads/', null=True, blank=True)

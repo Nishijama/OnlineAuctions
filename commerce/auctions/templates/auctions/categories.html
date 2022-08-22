@@ -1,16 +1,14 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-<!-- <div class="listings_container"> -->
-    <form class="listings_container" method="POST">
+    <form class="categories_container" method="POST">
         {% csrf_token %}
         {% for category in categories %}
-        <button type="submit" value="{{category}}" name="category" class="card btn btn-light"  style=" height: 150px; width: 270px; margin: 10px ;border-color: white;">
+        <button type="submit" value="{{category}}" name="category" class="card btn btn-light" style="height: 150px; width: 270px; margin: 10px ;border-color: white;">
             <img style="height:auto; width: 80px; margin:auto;" src="/media/Icons/{{category}}.png" alt="img">
             <p style="text-align: center;margin:auto;">{{category}}</p>
         </button>
         {% endfor%}
     </form>
-    <!-- </div> -->
-    <a href="https://www.flaticon.com/free-icons/art" title="art icons">Art icons created by Freepik - Flaticon</a>
+    <a style="position: absolute; bottom: 10px;" href="https://www.flaticon.com/free-icons/art" title="art icons">Art icons created by Freepik - Flaticon</a>
 {% endblock %}

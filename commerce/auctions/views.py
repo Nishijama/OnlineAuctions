@@ -177,9 +177,40 @@ def categories(request):
         })
 
 def category(request, category):
-    return render(request, "auctions/index.html",{
-        "listings": Listing.objects.filter(category=category, state="active")
-    })
+
+    if request.method=="POST":
+        if "search_submit" in request.POST:
+            search_data = request.POST.dict()
+            search_term = search_data.get("q")
+            return HttpResponseRedirect(f"/search_results/{search_term}")
+
+        elif "close_submit" in request.POST:
+            l = Listing.objects.get(id=request.POST['close_submit'])
+            l.close_auction()
+            l.save()
+            return HttpResponseRedirect(reverse("index"))
+
+        elif "watch_submit" in request.POST:
+            listing = Listing.objects.get(id=request.POST['watch_submit'])
+            user = request.user
+
+            listing.watchers.add(user)
+            print("Added " + listing.title + " to " + user.username + "'s watchlist")
+
+        elif "watch_remove" in request.POST:
+            listing = Listing.objects.get(id=request.POST["watch_remove"])
+            listing.watchers.remove(request.user)
+    
+    if request.user.is_authenticated:
+        return render(request, "auctions/index.html",{
+            "listings": Listing.objects.filter(category=category, state="active"),
+            "watched_items": request.user.watched_items.all()
+        })
+
+    else:
+        return render(request, "auctions/index.html",{
+            "listings": Listing.objects.filter(category=category, state="active"),
+        })
 
 def search_results(request, search_term):
     matching_results = []
@@ -187,11 +218,40 @@ def search_results(request, search_term):
         if search_term.lower() in listing.title.lower():
             matching_results.append(listing)
 
-    return render(request, "auctions/index.html", {
-        # "search_term": search_term,
-        "listings": matching_results,
-    })
+    if request.method=="POST":
+        if "search_submit" in request.POST:
+            search_data = request.POST.dict()
+            search_term = search_data.get("q")
+            return HttpResponseRedirect(f"/search_results/{search_term}")
 
+        elif "close_submit" in request.POST:
+            l = Listing.objects.get(id=request.POST['close_submit'])
+            l.close_auction()
+            l.save()
+            return HttpResponseRedirect(reverse("index"))
+
+        elif "watch_submit" in request.POST:
+            listing = Listing.objects.get(id=request.POST['watch_submit'])
+            user = request.user
+
+            listing.watchers.add(user)
+            print("Added " + listing.title + " to " + user.username + "'s watchlist")
+
+        elif "watch_remove" in request.POST:
+            listing = Listing.objects.get(id=request.POST["watch_remove"])
+            listing.watchers.remove(request.user)
+
+    if request.user.is_authenticated:
+        return render(request, "auctions/index.html", {
+            # "search_term": search_term,
+            "listings": matching_results,
+            "watched_items": request.user.watched_items.all()
+        })
+    else: 
+        return render(request, "auctions/index.html", {
+            # "search_term": search_term,
+            "listings": matching_results,
+        })
 
 def watchlist(request):
     user = request.user
@@ -201,6 +261,5 @@ def watchlist(request):
         listing.watchers.remove(user)
 
     return render(request, "auctions/watchlist.html", {
-        "watched_items": user.watched_items.all(),
-        
+        "watched_items": user.watched_items.all(),   
     })

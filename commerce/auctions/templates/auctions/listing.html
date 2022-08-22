@@ -6,35 +6,36 @@
   <h1>{{ listing.title }}</h1>
   <h6><span class="badge badge-secondary">{{listing.category}}</span>
   <span class="badge badge-info">{{ listing.owner }}</span></h6>
+
     {% if listing.owner == request.user %}
-    <p style="font-size:72; color:red;">You own this listing</p>
+      <p style="font-size:72; color:red;">You own this listing</p>
     {% endif %}
+
     <div class="row">
       <div class="col-lg-8">
         <div class="card" style=" margin: 10px 0; padding:10px; height: 400px;">
-          {% if listing.item_image %}
-              <img class="individual_listing_image" src="{{ listing.item_image.url }}" alt="">
-              {% else %}
-            
-            {% endif %}
+        {% if listing.item_image %}
+          <img class="individual_listing_image" src="{{ listing.item_image.url }}" alt="">
+        {% endif %}
         </div>
       </div>
       <div class="col-lg-4">
-        {% if listing.state == 'active' %}
+        
+        {% if listing.state == 'active' %} <!-- IF LISTING ACTIVE -->
           <div class="bidding_pannel">
             <p>Posted on {{ listing.start_date }}</p>
             <p class="individual_listing_price">Current price: ${{ listing.price }}</p>
             {% if listing.highest_bidder %}
             <p>Highest bidder: {{listing.highest_bidder}}</p>
             {% endif %}
-            <form method="POST">
+            <form method="POST"> 
               {% csrf_token %}
                 {% if user.is_authenticated %}
                   {% if listing.owner != request.user %}
                     <div class="form-group mb-2">
                       <label for="bid_input" class="sr-only">Bid amount</label>
                       <input type="number" name="bid_amount" id="bid_input" class="form-control form-control-lg"
-                      value="{{ min_next_price }}" min="{{ min_next_price }}">
+                      value="{{ min_next_price }}" step="0.01"  min="{{ min_next_price }}" max="999999.99">
                     </div>
                     <button type="submit" value="{{listing.id}}" name="bid_submit" class="btn btn-primary btn-lg btn-block mb-2">Bid</button>
                     {% if request.user not in watchers %}
@@ -55,14 +56,20 @@
                 <a href="{% url 'login' %}" class="btn btn-light btn-lg btn-block mb-2">Add to watchlist ⭐ </a>
                 {% endif %}
             </form>
-        </div>
-        {% else %}
+          </div>
+
+
+        {% else %}    <!-- IF LISTING CLOSED -->
         <div class="bidding_pannel">
-          <p>auction closed</p>
+          <p>Auction closed</p>
           <p class="individual_listing_price">Final price: ${{ listing.price }}</p>
-          <p>Highest bidder: {{listing.highest_bidder}}</p>
+          {% if user == listing.highest_bidder %}
+          <div class="alert alert-success" role="alert">Congrats, {{listing.highest_bidder}}! You won the auction 🎉</div>
+          {% endif %}
         </div>
         {% endif %}
+
+
       </div>
     </div>
     <div class="row" style="margin-top:20px;">

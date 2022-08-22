@@ -1,4 +1,3 @@
-
 {% extends "auctions/layout.html" %}
 
 {% block body %}
@@ -8,10 +7,12 @@
     <form method="post">
         {% csrf_token %}
         <div  class="watchlist_grid">
-        <button value="{{item.id}}" name="watch_remove" class="btn btn-outline-danger" style="margin-right:10px">×</button>
-        <a href='/listings/{{item.id}}'>{{ item }}</a>
-        <span style='margin-left:150px';>${{ item.price }}</span>
-    </div>
+            <div style="display:flex;">
+                <span style='display:inline-block;margin-right:10px; min-width:100px; text-align: right;'>${{ item.price }}</span>
+                <a href='/listings/{{item.id}}'>{{ item }}</a>
+            </div>
+            <button value="{{item.id}}" name="watch_remove" class="btn btn-outline-danger" style="margin-right:10px">×</button>
+        </div>
     </form>
         <hr>
     {% empty %}
