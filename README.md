@@ -1,6 +1,5 @@
-# CS50W_project_2
-
-# THIS PROJECT IS STILL IN PROGRESS
+# Online auctions
+## CS50W_project_2
 
 ####  eBay-like e-commerce auction site that will allow users to post auction listings, place bids on listings, comment on those listings, and add listings to a “watchlist.”
 
@@ -26,9 +25,8 @@ more screenshots below.
 * View listing categories
 * Display listings by category
 * Search for listing by name
-* Add listings to your 'watchlist'
+* Add and remove listings from your 'watchlist'
 * Place bids
-* ...
 
 ### Context
 Project 2 for CS50's Web Development with Python and JavaScript.
