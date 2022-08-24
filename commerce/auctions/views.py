@@ -99,6 +99,7 @@ def new_listing(request):
         if form.is_valid():
             new_listing = form.save(commit=False)
             new_listing.owner = request.user
+            new_listing.current_price = new_listing.initial_price
             new_listing.save()
         return HttpResponseRedirect(reverse("index"))
     else:
@@ -107,20 +108,30 @@ def new_listing(request):
         })
 
 def listing(request, listing_id):
-    l = Listing.objects.get(id=listing_id)
+    listing = Listing.objects.get(id=listing_id)
+   
+    # check if any beds have been placed - mark current price as inital price or highest bet 
+    if listing.bids.all():
+        bids = [bid.value for bid in (listing.bids.all())]
+        listing.current_price = bids[-1]
+    else:
+        listing.current_price = listing.initial_price
+        listing.highest_bidder = None
+    # if changes in price occured - update server on load!
+    listing.save()
 
     if request.method == "POST":
         if 'comment_submit' in request.POST:
             form = CommentForm(request.POST)
             if form.is_valid():
                 new_commennt = form.save(commit=False)
-                new_commennt.listing = l
+                new_commennt.listing = listing
                 new_commennt.author = request.user.username
                 new_commennt.save()
 
         elif 'close_submit' in request.POST:
-            l.close_auction()
-            l.save()
+            listing.close_auction()
+            listing.save()
             return HttpResponseRedirect(reverse("index"))
             
         elif "watch_submit" in request.POST:
@@ -138,20 +149,20 @@ def listing(request, listing_id):
             new_bid = Bid()
             new_bid.value = request.POST["bid_amount"]
 
-            if Decimal(new_bid.value) > l.price:
-                new_bid.listing = l
+            if Decimal(new_bid.value) > listing.current_price:
+                new_bid.listing = listing
                 new_bid.bidder = request.user
                 new_bid.save()
-                Bid.updatePrice(new_bid, l, request)
+                Bid.updatePrice(new_bid, listing, request)
 
-    print(l.bids.all())
 
+    
     return render(request, "auctions/listing.html", {
-        "listing": l,
-        "min_next_price": "{:.2f}".format(l.price + Decimal(0.01)),
-        "comments": l.comment_set.all(),
+        "listing": listing,
+        "min_next_price": "{:.2f}".format(listing.current_price + Decimal(0.01)),
+        "comments": listing.comment_set.all(),
         "comment_form": CommentForm(),
-        "watchers": l.watchers.all(),
+        "watchers": listing.watchers.all(),
     })
 
 def categories(request):

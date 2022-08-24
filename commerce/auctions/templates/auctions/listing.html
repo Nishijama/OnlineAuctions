@@ -24,7 +24,8 @@
         {% if listing.state == 'active' %} <!-- IF LISTING ACTIVE -->
           <div class="bidding_pannel">
             <p>Posted on {{ listing.start_date }}</p>
-            <p class="individual_listing_price">Current price: ${{ listing.price }}</p>
+            <!-- <p class="individual_listing_price">Current price: ${{ listing.price }}</p> -->
+            <p class="individual_listing_price">Current_price: ${{ listing.current_price }}</p>
             {% if listing.highest_bidder %}
             <p>Highest bidder: {{listing.highest_bidder}}</p>
             {% endif %}
@@ -62,7 +63,7 @@
         {% else %}    <!-- IF LISTING CLOSED -->
         <div class="bidding_pannel">
           <p>Auction closed</p>
-          <p class="individual_listing_price">Final price: ${{ listing.price }}</p>
+          <p class="individual_listing_price">Final price: ${{ listing.current_price }}</p>
           {% if user == listing.highest_bidder %}
           <div class="alert alert-success" role="alert">Congrats, {{listing.highest_bidder}}! You won this auction 🎉</div>
           {%else%}

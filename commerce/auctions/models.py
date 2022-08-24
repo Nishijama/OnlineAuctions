@@ -17,8 +17,9 @@ class Listing(models.Model):
     state = models.CharField(max_length=10, default="active", choices = [('active','active'), ('closed', 'closed')])
     category = models.CharField(max_length=64, null=True, blank=True)
     description = models.CharField(max_length=1500)
-    price = models.DecimalField(max_digits=8, decimal_places=2)
-    # to connect with bids
+    initial_price = models.DecimalField(max_digits=8, decimal_places=2, default = 0.00)
+    # price = models.DecimalField(max_digits=8, decimal_places=2)
+    current_price = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
 
     start_date = models.DateField(auto_now_add=True, editable=False)
     item_image = models.ImageField(upload_to ='uploads/', null=True, blank=True)
@@ -64,8 +65,8 @@ class Bid(models.Model):
         return f"{self.listing} | {self.bidder} | {self.value}"
 
     def updatePrice(self, listing, req):
-        if Decimal(self.value) > listing.price:
-            listing.price = Decimal(self.value)
+        if Decimal(self.value) > listing.current_price:
+            listing.current_price = Decimal(self.value)
             listing.highest_bidder = req.user
             listing.save()
 

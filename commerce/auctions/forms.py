@@ -18,11 +18,11 @@ class NewListingForm(forms.ModelForm):
 
     class Meta:
         model = Listing
-        fields = ('title','price', 'category', 'item_image', 'description')
+        fields = ('title','initial_price', 'category', 'item_image', 'description')
         
         labels = {
             "title": "",
-            "price": "",
+            "initial_price": "",
             "description": "",
             "category": "",
             
@@ -33,7 +33,7 @@ class NewListingForm(forms.ModelForm):
             'item_image': forms.FileInput(attrs={'class' : "form-control-file new_listing_form"}),
             'category': forms.Select(choices=categories, attrs={'class': 'form-control new_listing_form'}),
             'description': forms.Textarea(attrs={'class': 'form-control new_listing_form', 'placeholder': 'Description'}),
-            'price': forms.NumberInput(attrs={'min':0, 'class': 'form-control new_listing_form', 'placeholder': 'Price'}),
+            'initial_price': forms.NumberInput(attrs={'min':0, 'class': 'form-control new_listing_form', 'placeholder': 'Price'}),
             }
 
 class CommentForm(forms.ModelForm):
