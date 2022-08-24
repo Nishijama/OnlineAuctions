@@ -137,17 +137,14 @@ def listing(request, listing_id):
         elif "bid_submit" in request.POST:
             new_bid = Bid()
             new_bid.value = request.POST["bid_amount"]
-            new_bid.listing = l
-            new_bid.bidder = request.user
-            new_bid.save()
+
             if Decimal(new_bid.value) > l.price:
-                # l.price = Decimal(new_bid.value)
-                Bid.updatePrice(new_bid, l)
-                l.highest_bidder = request.user
-                l.save()
+                new_bid.listing = l
+                new_bid.bidder = request.user
+                new_bid.save()
+                Bid.updatePrice(new_bid, l, request)
 
-                print("Updated price with the new bid!")
-
+    print(l.bids.all())
 
     return render(request, "auctions/listing.html", {
         "listing": l,

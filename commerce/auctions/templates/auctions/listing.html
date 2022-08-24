@@ -64,7 +64,13 @@
           <p>Auction closed</p>
           <p class="individual_listing_price">Final price: ${{ listing.price }}</p>
           {% if user == listing.highest_bidder %}
-          <div class="alert alert-success" role="alert">Congrats, {{listing.highest_bidder}}! You won the auction 🎉</div>
+          <div class="alert alert-success" role="alert">Congrats, {{listing.highest_bidder}}! You won this auction 🎉</div>
+          {%else%}
+            {% if user == listing.owner%}
+            <div class="alert alert-info" role="alert">{{listing.highest_bidder}} won this auction.</div>
+            {% else %}
+            <div class="alert alert-danger" role="alert">Sorry, {{listing.highest_bidder}}! You didn't win this one 😔</div>
+            {% endif %}
           {% endif %}
         </div>
         {% endif %}
