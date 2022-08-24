@@ -2,6 +2,7 @@ from termios import TIOCPKT_DOSTOP
 from tkinter import CASCADE
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from decimal import Decimal
  
 class User(AbstractUser):
     
@@ -62,4 +63,9 @@ class Bid(models.Model):
     listing = models.ForeignKey(Listing, null=True, on_delete=models.CASCADE)
     bidder = models.ForeignKey(User, on_delete=models.CASCADE)
     value = models.DecimalField(max_digits=8, decimal_places=2)
+
+    def updatePrice(self, listing):
+        if Decimal(self.value) > listing.price:
+            listing.price = Decimal(self.value)
+
 

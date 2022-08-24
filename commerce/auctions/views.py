@@ -141,7 +141,8 @@ def listing(request, listing_id):
             new_bid.bidder = request.user
             new_bid.save()
             if Decimal(new_bid.value) > l.price:
-                l.price = Decimal(new_bid.value)
+                # l.price = Decimal(new_bid.value)
+                Bid.updatePrice(new_bid, l)
                 l.highest_bidder = request.user
                 l.save()
 

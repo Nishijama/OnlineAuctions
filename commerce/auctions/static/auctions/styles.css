@@ -6,6 +6,10 @@ li {
     list-style-type:none;
 }
 
+.nav-link {
+    color: white;
+}
+
 .body_container {
     padding: 20px;
 }
@@ -98,3 +102,4 @@ li {
     flex-direction: row;
     justify-content: space-between;
 }
+
