@@ -25,7 +25,7 @@
           <div class="bidding_pannel">
             <p>Posted on {{ listing.start_date }}</p>
             <!-- <p class="individual_listing_price">Current price: ${{ listing.price }}</p> -->
-            <p class="individual_listing_price">Current_price: ${{ listing.current_price }}</p>
+            <p class="individual_listing_price">Current price: ${{ current_price }}</p>
             {% if listing.highest_bidder %}
             <p>Highest bidder: {{listing.highest_bidder}}</p>
             {% endif %}

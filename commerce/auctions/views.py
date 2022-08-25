@@ -110,15 +110,15 @@ def new_listing(request):
 def listing(request, listing_id):
     listing = Listing.objects.get(id=listing_id)
    
-    # check if any beds have been placed - mark current price as inital price or highest bet 
-    if listing.bids.all():
-        bids = [bid.value for bid in (listing.bids.all())]
-        listing.current_price = bids[-1]
-    else:
-        listing.current_price = listing.initial_price
-        listing.highest_bidder = None
-    # if changes in price occured - update server on load!
-    listing.save()
+    # # check if any beds have been placed - mark current price as inital price or highest bet 
+    # if listing.bids.all():
+    #     bids = [bid.value for bid in (listing.bids.all())]
+    #     listing.current_price = bids[-1]
+    # else:
+    #     listing.current_price = listing.initial_price
+    #     listing.highest_bidder = None
+    # # if changes in price occured - update server on load!
+    # listing.save()
 
     if request.method == "POST":
         if 'comment_submit' in request.POST:
@@ -147,18 +147,20 @@ def listing(request, listing_id):
 
         elif "bid_submit" in request.POST:
             new_bid = Bid()
-            new_bid.value = request.POST["bid_amount"]
+            new_bid.value = Decimal(request.POST["bid_amount"])
 
-            if Decimal(new_bid.value) > listing.current_price:
+            if new_bid.value > listing.current_price:
                 new_bid.listing = listing
                 new_bid.bidder = request.user
                 new_bid.save()
-                Bid.updatePrice(new_bid, listing, request)
+                # Bid.updatePrice(new_bid, listing, request)
+                return HttpResponseRedirect(reverse("index"))
 
 
     
     return render(request, "auctions/listing.html", {
         "listing": listing,
+        "current_price": "{:.2f}".format(listing.current_price),
         "min_next_price": "{:.2f}".format(listing.current_price + Decimal(0.01)),
         "comments": listing.comment_set.all(),
         "comment_form": CommentForm(),

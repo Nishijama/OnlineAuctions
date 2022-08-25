@@ -64,10 +64,30 @@ class Bid(models.Model):
     def __str__(self):
         return f"{self.listing} | {self.bidder} | {self.value}"
 
-    def updatePrice(self, listing, req):
-        if Decimal(self.value) > listing.current_price:
-            listing.current_price = Decimal(self.value)
-            listing.highest_bidder = req.user
+    def save(self, *args, **kwargs):
+        listing = Listing.objects.get(title=self.listing)
+        if self.value > listing.current_price:
+            listing.current_price = self.value
+            listing.highest_bidder = self.bidder
             listing.save()
+            super().save(*args,**kwargs)
+        else:
+            print("Bid is lower than current price!")
 
-
+    def delete(self, *args, **kwargs):
+        super().delete(*args, **kwargs)
+        listing = Listing.objects.get(title=self.listing)
+        bids = Bid.objects.filter(listing = listing)
+        # print(bids)
+        # check if any beds have been placed - mark current price as inital price or highest bet 
+        if bids:
+            bids = [(bid.value, bid.bidder) for bid in (listing.bids.all())]
+            # bidders = [bid.bidder for bid in (listing.bids.all())]
+            print(bids)
+            listing.current_price = bids[-1][0]
+            listing.highest_bidder = bids[-1][1]
+            listing.save()
+        else:
+            listing.current_price = listing.initial_price
+            listing.highest_bidder = None
+            listing.save()
