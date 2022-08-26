@@ -6,7 +6,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from decimal import Decimal
 from django.dispatch import receiver
-from django.db.models.signals import post_delete
+from django.db.models.signals import post_delete, pre_save
  
 class User(AbstractUser):
     
@@ -66,52 +66,31 @@ class Bid(models.Model):
     def __str__(self):
         return f"{self.listing} | {self.bidder} | {self.value}"
 
-    def save(self, *args, **kwargs):
-        listing = Listing.objects.get(title=self.listing)
-        if self.value > listing.current_price:
-            listing.current_price = self.value
-            listing.highest_bidder = self.bidder
-            listing.save()
-            super().save(*args,**kwargs)
-        else:
-            print("Bid is lower than current price!")
-
-    # def delete(self, *args, **kwargs):
-    #     super().delete(*args, **kwargs)
-        # listing = Listing.objects.get(title=self.listing)
-        # bids = Bid.objects.filter(listing = listing)
-        # # print(bids)
-        # # check if any beds have been placed - mark current price as inital price or highest bet 
-        # if bids:
-        #     bids = [(bid.value, bid.bidder) for bid in (listing.bids.all())]
-        #     # bidders = [bid.bidder for bid in (listing.bids.all())]
-        #     print(bids)
-        #     listing.current_price = bids[-1][0]
-        #     listing.highest_bidder = bids[-1][1]
-        #     listing.save()
-        # else:
-        #     listing.current_price = listing.initial_price
-        #     listing.highest_bidder = None
-        #     listing.save()
-
+@receiver(pre_save, sender=Bid)
+def bid_save_handler(instance, *args, **kwargs):
+    listing = Listing.objects.get(id=instance.listing.id)
+    if instance.value > listing.current_price:
+        listing.current_price = instance.value
+        listing.highest_bidder = instance.bidder
+        listing.save()
+    else:
+        print("Bid is lower than current price!")
 
 @receiver(post_delete, sender=Bid)
 def bid_deleted_handler(instance, *args, **kwargs):
-    print('this got called!')
-    listing = Listing.objects.get(title=instance.listing)
+    listing = Listing.objects.get(id=instance.listing.id)
     bids = Bid.objects.filter(listing = listing)
     # check if any beds have been placed 
     if bids:
         bids = [(bid.value, bid.bidder) for bid in (listing.bids.all())]
         if instance.value > bids[-1][0]:
-            print('the highest bid was just deleted')
+            print('The highest bid was just deleted - price and highest bidder were adjusted accordingly')
             # if the bid deleted was the highest bid, set the higest bid value and the highest bidder
-            # to whatever bid is next on the stack
+            # to whatever bid is next on the stack, also works for bulk deletion
             listing.current_price = bids[-1][0]
             listing.highest_bidder = bids[-1][1]
             listing.save()
         else:
-            # 
             print('The bid deleted was not the top bid')
     else:
         listing.current_price = listing.initial_price
