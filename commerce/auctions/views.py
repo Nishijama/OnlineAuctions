@@ -1,4 +1,5 @@
 
+from http.client import HTTPResponse
 from urllib import request
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
@@ -8,6 +9,9 @@ from django.urls import reverse
 from .models import User, Listing, Bid
 from .forms import NewListingForm, CommentForm
 from decimal import Decimal
+from django.dispatch import receiver
+from django.db.models.signals import pre_delete
+
 
 def index(request, category="All"):
     if request.method=="POST":
@@ -153,11 +157,8 @@ def listing(request, listing_id):
                 new_bid.listing = listing
                 new_bid.bidder = request.user
                 new_bid.save()
-                # Bid.updatePrice(new_bid, listing, request)
-                return HttpResponseRedirect(reverse("index"))
+            listing = Listing.objects.get(id=listing_id)
 
-
-    
     return render(request, "auctions/listing.html", {
         "listing": listing,
         "current_price": "{:.2f}".format(listing.current_price),
@@ -274,3 +275,10 @@ def watchlist(request):
     return render(request, "auctions/watchlist.html", {
         "watched_items": user.watched_items.all(),   
     })
+
+
+
+@receiver(pre_delete, sender=Bid)
+def bid_deleted_handler(*args, **kwargs):
+    print(args, kwargs)
+    pass
