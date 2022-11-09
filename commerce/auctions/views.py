@@ -9,8 +9,7 @@ from django.urls import reverse
 from .models import User, Listing, Bid
 from .forms import NewListingForm, CommentForm
 from decimal import Decimal
-from django.dispatch import receiver
-from django.db.models.signals import pre_delete
+
 
 
 def index(request, category="All"):
@@ -276,9 +275,3 @@ def watchlist(request):
         "watched_items": user.watched_items.all(),   
     })
 
-
-
-@receiver(pre_delete, sender=Bid)
-def bid_deleted_handler(*args, **kwargs):
-    print(args, kwargs)
-    pass

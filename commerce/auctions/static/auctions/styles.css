@@ -1,3 +1,11 @@
+* {
+    box-sizing: border-box;
+}
+
+h1, h2, h3{
+    color: rgb(216, 216, 216);
+}
+
 body {
     margin: 0;
 }
@@ -12,6 +20,8 @@ li {
 
 .body_container {
     padding: 20px;
+    background-color: #18191B;
+    height: 100vh;
 }
 
 
@@ -87,6 +97,14 @@ li {
 .bidding_pannel {
     display: flex;
     flex-direction: column;
+}
+
+.bidding_pannel > p {
+    color: white;
+}
+
+.description {
+    color: white;
 }
 
 #CommentForm {
